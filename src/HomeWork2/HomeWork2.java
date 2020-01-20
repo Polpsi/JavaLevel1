@@ -33,7 +33,7 @@ public class HomeWork2 {
 
         //Задание 5, метод diagonal
         System.out.println("---------Задание 5---------");
-        int[][] arr5 = new int[6][6];
+        int[][] arr5 = new int[4][4];
         arr5=diagonal(arr5);
         for (int i=0;i<arr5.length;i++){
             for(int j=0;j<arr5[i].length;j++)
@@ -82,7 +82,8 @@ public class HomeWork2 {
     //Задание 3
     private static int[] multiplyOnTwo(int[] arr) {
         for (int i=0;i<arr.length;i++)
-            arr[i]=(arr[i]<6)?arr[i]*2:arr[i];
+            if (arr[i] < 6) arr[i] *= 2;
+            // было arr[i]=(arr[i]<6)?arr[i]*2:arr[i];
         return arr;
     }
 
@@ -102,23 +103,42 @@ public class HomeWork2 {
 
     //Задание 5
     private static int[][] diagonal(int[][] arr){
-        for (int i = 0; i < arr.length; i++)
+        int k = ((arr.length%2 ==0)?arr.length/2:(arr.length+1)/2)-1;
+        for (int i = 0; i <= k; i++) {
+            arr[i][i]=1;
+            //if ((i==k)&&(arr.length%2 !=0)) break; На больших массивах только затормозит.
+            arr[arr.length-i-1][i]=1;
+            arr[i][arr.length-i-1]=1;
+            arr[arr.length-i-1][arr.length-i-1]=1;
+        }
+/* было
+        for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++)
                 arr[i][j]=((i==j)||(i+j==arr[i].length-1))?1:0;
+
+ */
         return arr;
     }
 
     //Задание 6
     private static boolean happyTicket(int[] arr) {
-        for (int i = 1; i <= arr.length; i++) {
-            int leftSum = 0, rightSum = 0;
+        int leftSum = arr[0], rightSum = 0;
+        for (int i = 1; i < arr.length; i++) {
+            for (int j = i; j < arr.length; j++) {
+                rightSum += arr[j];
+            }
+            if(leftSum==rightSum) return true;
+            rightSum=0;
+            leftSum+=arr[i];
+        }
+        return false;
+
+        /* было внутри цикла i
             for (int j = 0; j < i; j++)
                 leftSum += arr[j];
             for (int j = i; j < arr.length; j++)
                 rightSum += arr[j];
-            if(leftSum==rightSum) return true;
-        }
-        return false;
+         */
     }
 
     //Задание 7
